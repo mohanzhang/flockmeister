@@ -1,0 +1,22 @@
+{
+  "name": "flockmeister",
+  "version": "0.0.1",
+  "description": "Generate a graph of your flock's status hierarchy",
+  "main": "server.js",
+  "engines": {
+    "node": "0.10.32"
+  },
+  "scripts": {
+    "postinstall": "cd ./client && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohanzhang/flockmeister.git"
+  },
+  "author": "mohanzhang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mohanzhang/flockmeister/issues"
+  },
+  "homepage": "http://www.mohanzhang.com"
+}

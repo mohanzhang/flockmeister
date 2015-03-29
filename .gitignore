@@ -15,3 +15,9 @@
 /log/*
 !/log/.keep
 /tmp
+/public/assets
+client-bundle.js
+client-bundle.js.map
+.env
+node_modules
+npm-debug.log
