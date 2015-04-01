@@ -1,23 +1,30 @@
 .container-fluid
   .row
     .col-md-6
-      = image_tag "logo.png", width: 586
+      #logo
+        = image_tag "logo.png", width: '100%'
     .col-md-6
       %q
         A gratuitous example of polyglot full-stack web development to solve a non-problem.
-  .row
-    .col-sm-8
-      %hr
-    .col-sm-4
       %cite
         &mdash; Web Dev Monthly
   .row
-    .col-md-12
-      (links)
-  .row
+    .col-sm-4
+      %a.btn.btn-default.btn-sm(href="http://www.mohanzhang.com")
+        %i.fa.fa-globe
+        mohanzhang.com
+      %a.btn.btn-default.btn-sm(href="https://github.com/mohanzhang/flockmeister")
+        %i.fa.fa-github
+        github
+    .col-sm-8
+      %hr
+  .row#content
     .col-md-12
       Did you know that chickens are very sensitive to their social order? If you introduce a new
       hen into a flock, a battle will ensue to determine her status relative to the others. By
       gathering a bit of observational data, flockmeister will calculate and draw the social
       hierarchy of your flock.
 
+  .row#app
+    .col-md-12
+      #mount-app
