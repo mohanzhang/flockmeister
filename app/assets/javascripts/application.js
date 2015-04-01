@@ -12,5 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//
+//= require bootstrap-sprockets
+
+// Important to import jquery_ujs before rails-bundle as that patches jquery xhr to use the authenticity token!
+
+//= require client-bundle
