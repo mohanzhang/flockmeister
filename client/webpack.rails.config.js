@@ -10,9 +10,6 @@ config.output = { filename: "client-bundle.js",
                   path: "../app/assets/javascripts" };
 config.externals = { jquery: "var jQuery" }; // load jQuery from cdn or rails asset pipeline
 
-// You can add entry points specific to rails here
-config.entry.push('./scripts/rails_only');
-
 // See webpack.common.config for adding modules common to both the webpack dev server and rails
 
 config.module.loaders.push(

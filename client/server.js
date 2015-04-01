@@ -15,7 +15,7 @@ var server = new WebpackDevServer(webpack(config), {
 server.app.use(bodyParser.json());
 server.app.use(bodyParser.urlencoded({extended: true}));
 
-server.listen(3000, 'localhost', function(err, result) {
+server.listen(4000, 'localhost', function(err, result) {
   if (err) { console.log(err); }
-  console.log('Listening at localhost:3000...');
+  console.log('Listening at localhost:4000...');
 });

@@ -28,7 +28,9 @@
     "react": "^0.13.1",
     "react-bootstrap": "^0.17.0",
     "sleep": "^2.0.0",
-    "webpack": "^1.7.3"
+    "webpack": "^1.7.3",
+    "marty": "^0.9.0",
+    "lodash": "^3.0.0"
   },
   "devDependencies": {
     "expose-loader": "^0.6.0",
