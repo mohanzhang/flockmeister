@@ -13,14 +13,18 @@ class PeckSelector extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <h4>Who have you seen her peck?</h4>
-        <ol>
-          {this.renderNametags.bind(this)()}
-        </ol>
-      </div>
-    );
+    if (typeof this.props.activeChicken !== 'undefined') {
+      return (
+        <div>
+          <h5>Who have you seen her peck?</h5>
+          <ol>
+            {this.renderNametags.bind(this)()}
+          </ol>
+        </div>
+      );
+    } else {
+      return <div></div>;
+    }
   }
 
   renderNametags() {

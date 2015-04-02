@@ -12,8 +12,9 @@ class Flockchart extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>flockchart&trade;</h3>
+      <div id="flockchart">
+        <h4>flockchart&trade;</h4>
+        <hr />
         <Button onClick={this.requestChart.bind(this)} bsStyle='primary'>
           Generate
         </Button>
