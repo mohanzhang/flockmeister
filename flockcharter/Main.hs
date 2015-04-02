@@ -20,10 +20,13 @@
 -- Finally, the graphviz package provides an interface to dot (which you can install via homebrew if
 -- you're on mac), which will render the graph we made as a png. And that's it!
 
+import Control.Applicative((<$>))
+import GHC.Generics
 
 import qualified Data.Map as M
 import Data.Maybe
 import Data.Text.Lazy (Text, pack, unpack)
+import qualified Data.ByteString.Lazy.Char8 as BS
 
 import Data.Aeson
 
@@ -32,42 +35,51 @@ import Data.Graph.Inductive.PatriciaTree
 import Data.GraphViz
 import Data.GraphViz.Printing (toDot, renderDot)
 
+import System.Environment (getArgs)
 import System.FilePath
 
 data PeckData =
   PeckData { name :: Text
-           , pecks :: [Text] }
+           , pecks :: [Text] } deriving (Show, Generic)
 
-peckingOrder =
-  [
-    PeckData { name = "Ella", pecks = [] }
-  , PeckData { name = "Buff", pecks = ["Ella"] }
-  ]
+instance FromJSON PeckData
+instance ToJSON PeckData
 
-nodeLookup :: M.Map Text Node
-nodeLookup = M.fromList $ zip (map name peckingOrder) [0..]
-
--- fromJust is generally dangerous, but since we construct our own node lookup map with
--- self-assigned integers, we can be sure that the lookups will succeed
-contexts :: [Context Text ()]
-contexts = map mkContext peckingOrder
+buildGraph :: [PeckData] -> Gr Text ()
+buildGraph peckingOrder = graph
   where
-    adjFromPecks pecks = zip (repeat ()) (map (fromJust . (flip M.lookup nodeLookup)) pecks)
+    nodeLookup :: M.Map Text Node
+    nodeLookup = M.fromList $ zip (map name peckingOrder) [0..]
 
-    mkContext (PeckData { name=name, pecks=pecks }) =
-      ([], fromJust $ M.lookup name nodeLookup, name, adjFromPecks pecks)
+    -- fromJust is generally dangerous, but since we construct our own node lookup map with
+    -- self-assigned integers, we can be sure that the lookups will succeed
+    contexts :: [Context Text ()]
+    contexts = map mkContext peckingOrder
+      where
+        adjFromPecks pecks = zip (repeat ()) (map (fromJust . (flip M.lookup nodeLookup)) pecks)
 
-graph :: Gr Text ()
-graph = foldr (&) empty contexts
+        mkContext (PeckData { name=name, pecks=pecks }) =
+          ([], fromJust $ M.lookup name nodeLookup, name, adjFromPecks pecks)
+
+    graph :: Gr Text ()
+    graph = foldr (&) empty contexts
+
 
 main :: IO ()
 main = do
   canGraphviz <- isGraphvizInstalled
   if canGraphviz
     then do
-      let dotGraph = graphToDot params graph
-      createImageInDir "/Users/mohanzhang/tmp" "output" Png dotGraph
-      return ()
+      inputString <- BS.getContents
+      case eitherDecode inputString of
+        Left err -> do
+          putStrLn "Error reading input:"
+          BS.putStrLn inputString
+          putStrLn err
+        Right peckingOrder -> do
+          let dotGraph = graphToDot params $ buildGraph peckingOrder
+          createImageInDir "/Users/mohanzhang/tmp" "output" Png dotGraph
+          return ()
     else quitWithoutGraphviz "It appears you do not have graphviz installed"
 
 
