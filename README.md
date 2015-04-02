@@ -5,14 +5,19 @@ Have you ever heard the phrase "pecking order"? It's a real thing! Chickens are 
 to their social order, and now you can make heads and tails of their sassy attitudes with
 flockmeister, the only app of its kind, guaranteed!
 
-flockmeister is best understood as a live demo:
+(Live demo coming soon)
 
-### TL;DD (Too Long; Didn't Demo)
+### TL;DD (Too Late; Didn't Demo)
 
-Er, not sure I could summarize it faster than the demo, but basically this app takes as input some
+Yeah, deploying compiled haskell binaries is a drag... But basically, this app takes as input some
 observational data about which chickens have pecked other chickens, and then builds you a directed
 graph of their social hierarchy. In other words, it will help you inductively identify the social
-order of your flock.
+order of your flock. See these screenshots:
+
+![Screenshot of flockmeister in action](/../screenshots/screenshots/demo.png?raw=true)
+![Screenshot of flockmeister in action](/../screenshots/screenshots/demo2.png?raw=true)
+
+Poor Feathers! :(
 
 ---
 
@@ -68,4 +73,5 @@ straightforward if you know a bit of `cabal`. I usually work in a sandbox, so it
 
 1. `cabal sandbox init`
 2. `cabal install --only-dependencies` (this may take a while)
-3. You now have access to `cabal repl` which will put you into ghci
+3. `cabal build` (this will put a compiled binary inside `dist/`)
+4. cat your favorite json file (see `sample_input.json` for the format)
