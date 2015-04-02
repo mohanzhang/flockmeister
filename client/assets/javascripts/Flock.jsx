@@ -20,17 +20,32 @@ class Flock extends React.Component {
   render() {
     return (
       <div>
+        <h4>Your Ladies</h4>
         <ol>
-          {_.map(this.props.chickens, (x) => <Nametag chicken={x} />)}
+          {this.renderNametags.bind(this)()}
         </ol>
         <Input type='text'
                ref='input'
                value={this.state.inputValue}
                onChange={this.handleChange.bind(this)}
                placeholder='Enter a name' />
-        <Button onClick={this.addChicken.bind(this)}>Add Chicken</Button>
+        <Button onClick={this.addChicken.bind(this)}>
+          Add Chicken
+        </Button>
       </div>
     );
+  }
+
+  renderNametags() {
+    return _.map(this.props.chickens, (x) => {
+      var active = false;
+
+      if (typeof this.props.activeChicken !== 'undefined') {
+        active = x.id == this.props.activeChicken.id;
+      }
+
+      return <Nametag chicken={x} active={active} />
+    });
   }
 
   addChicken() {
@@ -42,10 +57,14 @@ class Flock extends React.Component {
 class Nametag extends React.Component {
   render() {
     return (
-      <li>
+      <li onClick={this.selectChicken.bind(this)} className={this.props.active ? "active" : ""}>
         {this.props.chicken.name}
       </li>
     );
+  }
+
+  selectChicken() {
+    ChickenActionCreators.selectChicken(this.props.chicken.id);
   }
 }
 

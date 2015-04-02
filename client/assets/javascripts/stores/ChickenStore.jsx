@@ -9,11 +9,14 @@ class ChickenStore extends Marty.Store {
 
     this.state = {
       chickens: [],
-      pecks: []
+      pecks: [],
+      currentChickenId: -1
     };
 
     this.handlers = {
-      addChicken: ChickenConstants.ADD_CHICKEN
+      addChicken: ChickenConstants.ADD_CHICKEN,
+      selectChicken: ChickenConstants.SELECT_CHICKEN,
+      togglePeck: ChickenConstants.TOGGLE_PECK
     };
   }
 
@@ -29,11 +32,52 @@ class ChickenStore extends Marty.Store {
     return this.state.chickens;
   }
 
+  getPecks() {
+    return this.state.pecks;
+  }
+
+  getCurrentChicken() {
+    return _.find(this.state.chickens, (c) => c.id == this.state.currentChickenId);
+  }
+
+  getCurrentPecks() {
+    var peckData = _.find(this.state.pecks, (p) => p.id == this.state.currentChickenId);
+    if (typeof peckData !== 'undefined') {
+      return peckData.victims;
+    } else {
+      return [];
+    }
+  }
+
   addChicken(name) {
+    var id = this.nextId();
+
     this.state.chickens.push({
-      id: this.nextId(),
+      id: id,
       name: name
     });
+
+    this.state.pecks.push({
+      id: id,
+      victims: [],
+    });
+
+    this.hasChanged();
+  }
+
+  selectChicken(id) {
+    this.state.currentChickenId = id;
+    this.hasChanged();
+  }
+
+  togglePeck(victimId) {
+    var peckData = _.find(this.state.pecks, (p) => p.id == this.state.currentChickenId);
+    if (_.contains(peckData.victims, victimId)) {
+      var indexToDelete = peckData.victims.indexOf(victimId);
+      peckData.victims.splice(indexToDelete, 1);
+    } else {
+      peckData.victims.push(victimId);
+    }
 
     this.hasChanged();
   }
