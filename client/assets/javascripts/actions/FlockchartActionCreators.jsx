@@ -4,9 +4,9 @@ import { FlockchartConstants } from '../constants/FlockchartConstants'
 import { FlockchartAPI } from '../sources/FlockchartAPI'
 
 class FlockchartActionCreators extends Marty.ActionCreators {
-  requestChart() {
+  requestChart(peckingOrder) {
     var api = new FlockchartAPI();
-    api.getChart();
+    api.getChart(peckingOrder);
   }
 }
 

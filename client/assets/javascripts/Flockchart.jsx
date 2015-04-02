@@ -18,12 +18,30 @@ class Flockchart extends React.Component {
         <Button onClick={this.requestChart.bind(this)} bsStyle='primary'>
           Generate
         </Button>
+        <div className="imageMount"></div>
       </div>
     );
   }
 
+  peckingOrder() {
+    var idToName = _.object(
+      _.map(this.props.chickens, (c) => { return [c.id, c.name] })
+    );
+
+    var idToVictimNames = _.object(
+      _.map(this.props.pecks, (pd) => {
+        var victimNames = _.map(pd.victims, (id) => { return idToName[id] });
+        return [pd.id, victimNames]
+      })
+    );
+
+    return _.map(this.props.chickens, (chicken) => {
+        return {name: chicken.name, pecks: idToVictimNames[chicken.id]}
+      });
+  }
+
   requestChart() {
-    FlockchartActionCreators.requestChart();
+    FlockchartActionCreators.requestChart(this.peckingOrder.bind(this)());
   }
 }
 

@@ -37,11 +37,11 @@ var _App = Marty.createContainer(App, {
       selectedChicken: ChickenStore.for(this).getCurrentChicken(),
       activePecks: ChickenStore.for(this).getCurrentPecks(),
       pecks: ChickenStore.for(this).getPecks()
-    };
+    }
   },
 
   failed(errors) {
-    return <div>{errors}</div>;
+    return <div>{errors}</div>
   }
 });
 
