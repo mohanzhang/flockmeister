@@ -1,6 +1,10 @@
 var $ = require('jquery');
 var React = require('react/addons');
 
+var Button = require('react-bootstrap/lib/Button');
+
+import { FlockchartActionCreators } from './actions/FlockchartActionCreators.jsx'
+
 class Flockchart extends React.Component {
   constructor(props) {
     super(props);
@@ -10,8 +14,15 @@ class Flockchart extends React.Component {
     return (
       <div>
         <h3>flockchart&trade;</h3>
+        <Button onClick={this.requestChart.bind(this)} bsStyle='primary'>
+          Generate
+        </Button>
       </div>
     );
+  }
+
+  requestChart() {
+    FlockchartActionCreators.requestChart();
   }
 }
 
