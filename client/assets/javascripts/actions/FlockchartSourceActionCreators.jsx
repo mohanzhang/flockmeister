@@ -4,8 +4,8 @@ import { FlockchartConstants } from '../constants/FlockchartConstants'
 import { FlockchartAPI } from '../sources/FlockchartAPI'
 
 class FlockchartSourceActionCreators extends Marty.ActionCreators {
-  updateChart(chart) {
-    this.dispatch(FlockchartConstants.UPDATE_CHART, chart);
+  updateChart(data) {
+    this.dispatch(FlockchartConstants.UPDATE_CHART, data);
   }
 }
 

@@ -7,7 +7,7 @@ class FlockchartAPI extends Marty.StateSource {
   getChart(peckingOrder) {
     return (
       new Promise(function(resolve) {
-        $.get("/flockchart.png", {json: JSON.stringify(peckingOrder)}, function(result) {
+        $.get("/flockchart", {json: JSON.stringify(peckingOrder)}, function(result) {
           FlockchartSourceActionCreators.updateChart(result);
           resolve();
         });

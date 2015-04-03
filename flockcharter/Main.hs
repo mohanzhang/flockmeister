@@ -18,7 +18,8 @@
 -- understanding how this bit works).
 --
 -- Finally, the graphviz package provides an interface to dot (which you can install via homebrew if
--- you're on mac), which will render the graph we made as a png. And that's it!
+-- you're on mac), which will render the graph we made as a png and write its base64 encoded value
+-- on stdout. And that's it!
 
 import Control.Applicative((<$>))
 import GHC.Generics
@@ -26,7 +27,8 @@ import GHC.Generics
 import qualified Data.Map as M
 import Data.Maybe
 import Data.Text.Lazy (Text, pack, unpack)
-import qualified Data.ByteString.Lazy.Char8 as BS
+import qualified Data.ByteString.Char8 as BS
+import qualified Data.ByteString.Base64 as BS64
 
 import Data.Aeson
 
@@ -37,6 +39,9 @@ import Data.GraphViz.Printing (toDot, renderDot)
 
 import System.Environment (getArgs)
 import System.FilePath
+import System.IO.Temp (withSystemTempDirectory)
+import System.FilePath ((</>))
+import System.Exit
 
 data PeckData =
   PeckData { name :: Text
@@ -71,22 +76,31 @@ main = do
   if canGraphviz
     then do
       inputString <- BS.getContents
-      case eitherDecode inputString of
+      case eitherDecodeStrict inputString of
         Left err -> do
           putStrLn "Error reading input:"
           BS.putStrLn inputString
           putStrLn err
+          exitFailure
         Right peckingOrder -> do
           let dotGraph = graphToDot params $ buildGraph peckingOrder
-          createImageInDir "/Users/mohanzhang/tmp" "output" Png dotGraph
-          return ()
+          base64Data <- base64ImageData dotGraph
+          BS.putStr base64Data
+          exitSuccess
     else quitWithoutGraphviz "It appears you do not have graphviz installed"
 
+base64ImageData :: PrintDotRepr dg n => dg n -> IO BS.ByteString
+base64ImageData dotGraph =
+  withSystemTempDirectory "flockcharter" (\dir -> do
+    createImageInDir dir "output" Png dotGraph
+    binData <- BS.readFile (dir </> "output.png")
+    return $ BS64.encode binData
+  )
 
--- Thanks to http://haroldcarr.com/posts/2014-02-28-using-graphviz-via-haskell.html
 params :: GraphvizParams n Text () () Text
 params = nonClusteredParams { fmtNode = simpleNodeLabel }
   where simpleNodeLabel (_,l) = [textLabel l]
 
+-- Thanks to http://haroldcarr.com/posts/2014-02-28-using-graphviz-via-haskell.html
 createImageInDir :: PrintDotRepr dg n => FilePath -> FilePath -> GraphvizOutput -> dg n -> IO FilePath
 createImageInDir d n o g = Data.GraphViz.addExtension (runGraphvizCommand Dot g) o (combine d n)

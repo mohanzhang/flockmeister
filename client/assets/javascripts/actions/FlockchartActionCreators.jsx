@@ -5,6 +5,7 @@ import { FlockchartAPI } from '../sources/FlockchartAPI'
 
 class FlockchartActionCreators extends Marty.ActionCreators {
   requestChart(peckingOrder) {
+    this.dispatch(FlockchartConstants.GENERATE);
     var api = new FlockchartAPI();
     api.getChart(peckingOrder);
   }
