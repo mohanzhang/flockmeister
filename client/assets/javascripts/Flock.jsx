@@ -49,6 +49,8 @@ class Flock extends React.Component {
   }
 
   addChicken() {
+    if (this.state.inputValue.length == 0) { return }
+
     ChickenActionCreators.addChicken(this.state.inputValue);
     this.setState({inputValue: ''});
   }
