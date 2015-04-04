@@ -5,17 +5,11 @@ Have you ever heard the phrase "pecking order"? It's a real thing! Chickens are 
 to their social order, and now you can make heads and tails of their sassy attitudes with
 flockmeister, the only app of its kind, guaranteed!
 
-(Live demo coming soon)
+Basically, this app takes as input some observational data about which chickens have pecked other
+chickens, and then builds you a directed graph of their social hierarchy. In other words, it will
+help you inductively identify the social order of your flock. See this demo:
 
-### TL;DD (Too Late; Didn't Demo)
-
-Yeah, deploying compiled haskell binaries is a drag... But basically, this app takes as input some
-observational data about which chickens have pecked other chickens, and then builds you a directed
-graph of their social hierarchy. In other words, it will help you inductively identify the social
-order of your flock. See these screenshots:
-
-![Screenshot of flockmeister in action](/../screenshots/screenshots/demo.png?raw=true)
-![Screenshot of flockmeister in action](/../screenshots/screenshots/demo2.png?raw=true)
+![Screenshot of flockmeister in action](/../screenshots/screenshots/demo.gif?raw=true)
 
 Poor Feathers! :(
 
