@@ -39,10 +39,30 @@
     "react-hot-loader": "^1.2.3",
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
+    "jest-cli": "^0.2.0",
+    "babel-jest": "^5.0.0",
     "webpack-dev-server": "^1.7.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./node_modules/jest-cli/bin/jest.js",
     "start": "node server.js"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "react",
+      "react/addons",
+      "lodash",
+      "jquery",
+      "marty"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx"
+    ],
+    "testFileExtensions": [
+      "jsx"
+    ]
   }
 }

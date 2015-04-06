@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var _ = require('lodash');
 var React = require('react/addons');
 var Marty = require('marty');
 
